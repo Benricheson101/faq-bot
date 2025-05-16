@@ -87,10 +87,6 @@ def is_question(msg: str):
         return (False, 1.0)
 
 
-intents = Intents.default()
-intents.message_content = True
-
-
 class Client(discord.Client):
     async def on_ready(self):
         print("ready as", self.user)
@@ -188,6 +184,9 @@ class Client(discord.Client):
             allowed_mentions=AllowedMentions.none(),
         )
 
+
+intents = Intents.default()
+intents.message_content = True
 
 client = Client(
     intents=intents,

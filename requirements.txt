@@ -44,4 +44,5 @@ tqdm==4.67.1
 transformers==4.51.3
 typing_extensions==4.13.2
 urllib3==2.4.0
+watchdog==6.0.0
 yarl==1.20.0
