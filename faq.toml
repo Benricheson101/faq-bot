@@ -1,0 +1,141 @@
+guild = "267735321695748096"
+
+[[faq]]
+questions = [
+  "get tag",
+  "put a tag on my profile",
+  "put a tag on my name",
+]
+answer = "Open Settings > Profile, scroll to the bottom, and select **bens stuff!! :3** from the dropdown list"
+threshold = 0.75
+
+[[faq]]
+questions = [
+  "make gradient role",
+  "make tags",
+  "make rainbow roles",
+  "make a tag",
+  "make a tag server",
+  "get a tag in my server",
+  "get the tag feature in my server",
+  "get the gradient roles feature in my server",
+  "get rainbow roles in my server",
+  "get gradient name color",
+  "how do I make colored roles in my own server",
+]
+answer = "Tags and gradient roles are an experimental feature that only a small percentage of servers have access to. Open Server Settings in your server and look for a tab called **Server Tag**. If you don't see that tab, you'll have to wait a bit longer for the feature to be made available to more servers."
+threshold = 0.8
+
+[[faq]]
+questions = [
+  "where is general chat",
+  "how do i see general chat",
+  "only one channel",
+  "how do I get the nerd role",
+  "get more channels",
+  "get other channels",
+  "most of the channels are hidden",
+  "this server only has one channel",
+  "How do I get access to the full server?",
+  "how do I verify and see more of the server",
+  "more channels than just yap",
+]
+answer = "To prevent spam, most of the channels here are hidden. If you're interested in sticking around in the server and aren't just here for the tag, a staff member will add you to those channels if they see you being active in chat. Additionally, __boosters get instant access to the rest of the server__"
+
+[[faq]]
+questions = [
+  "six letter tag",
+  "fluffy tag is six letters long",
+  "how is the tag more than 4 letters",
+  "this server's tag is six letters long",
+  "fluffy tag shouldn't exist",
+]
+answer = "Magic"
+
+[[faq]]
+questions = [
+  "make a tag with more than four letters",
+  "tags can only be four letters long",
+  "tags can only be created with up to four letters",
+  "tags cannot be made with more than six letters",
+  "tag uses a font for more than four letters",
+]
+answer = "Discord limits tags to four characters."
+
+[[faq]]
+questions = [
+  "get gradient role",
+  "get glowing names",
+  "get rainbow role",
+  "get rainbow name",
+  "get name color",
+  "make name rainbow",
+  # "colored role",
+  # "change name color",
+  # "have gradient role",
+  # "have rainbow role",
+  # "change your name to gradient or rainbow colors",
+  "name colors can be changed",
+  "names colors can be changed to gradient or rainbow colors",
+  "names can have gradient colors",
+  "names can have rainbow colors",
+
+  "role colors can be changed",
+  "roles colors can be changed to gradient or rainbow colors",
+  "roles can have gradient colors",
+  "roles can have rainbow colors",
+  "multi-colored names",
+  "multi-colored roles",
+]
+answer = "Choose one of the color roles in <id:customize>"
+threshold = 0.70
+
+[[faq]]
+questions = [
+  "what is the nerd role"
+]
+answer = "The nerd role grants access to the rest of the server. Most of channels were hidden when the tag was added"
+
+[[faq]]
+questions = [
+  "is this a furry server?",
+]
+answer = "idk"
+threshold = 0.85
+
+[[faq]]
+questions = [
+  "the woof tag is gone",
+  "the owo tag is gone",
+  "the pupy tag is gone",
+]
+answer = "The tag has changed a few times"
+
+[[faq]]
+questions = [
+  "find more tags",
+  "trying to collect more tags",
+  "get other tags",
+  "other tag servers",
+  "join a tag server",
+  "invite to tag server",
+  "ask for invite to tag server",
+  "ask to join tag server",
+]
+answer = "no"
+threshold = 0.75
+question = false
+
+[[faq]]
+questions = [
+  "file upload permissions are restricted",
+  "sending images is disabled",
+]
+answer = "nerd role"
+
+[[faq]]
+questions = [
+  "what is this server about",
+]
+answer = "everything and nothing"
+threshold = 0.95
