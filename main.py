@@ -15,14 +15,13 @@ QUESTION_THRESHOLD = 0.75
 
 faqs_file = "faq.toml"
 
-# model = SentenceTransformer("sentence-transformers/all-MiniLM-L12-v2")
-
 faq_model = SentenceTransformer("sentence-transformers/multi-qa-mpnet-base-dot-v1")
 classifier_model = pipeline(
     "zero-shot-classification", model="facebook/bart-large-mnli"
 )
 
 run = True
+debug_channel = 1372001351516688495
 
 
 def reload_faqs():
@@ -38,6 +37,10 @@ def reload_faqs():
             "question": q,
             "answer": faq["answer"],
             "threshold": float(faq.get("threshold", FAQ_DEFAULT_THRESHOLD)),
+            "require_question": faq.get("question", True),
+            "require_question_threshold": faq.get(
+                "question_threshold", QUESTION_THRESHOLD
+            ),
         }
         for faq in faqs_parsed["faq"]
         for q in faq["questions"]
@@ -58,20 +61,6 @@ class Watcher(PatternMatchingEventHandler):
 
     def on_modified(self, event):
         reload_faqs()
-        print("reloaded faqs")
-
-
-# def get_faq(question: str) -> Tuple[dict, float]:
-#     question_embedding = faq_model.encode(question, convert_to_tensor=True)
-#     cos_scores = util.cos_sim(question_embedding, faq_embeddings)
-#
-#     # cos_scores = util.dot_score(question_embedding, faq_embeddings)
-#     print("cos_scores:", cos_scores)
-#
-#     best_match_idx = torch.argmax(cos_scores[0]).item()
-#     best_score = cos_scores[0][best_match_idx].item()  # type: ignore
-#
-#     return (faqs[faq_questions[best_match_idx]], best_score)  # type: ignore
 
 
 def get_faq(question: str) -> Tuple[dict, float]:
@@ -92,7 +81,6 @@ def is_question(msg: str):
     global classifier_model
     try:
         output = classifier_model(msg, ["question", "statement"])
-        print("classification:", output)
         return (output["labels"][0] == "question", output["scores"][0])  # type: ignore
     except Exception as e:
         print("classification failed:", e)
@@ -110,28 +98,21 @@ class Client(discord.Client):
     async def on_message(self, msg: Message):
         global faqs_parsed
 
+        channels = faqs_parsed.get("channels", [])
+        guilds = faqs_parsed.get("guilds", [])
+
         if (
             msg.author.bot
             or msg.author == self.user
-            or not msg.guild
-            or not msg.guild.id not in faqs_parsed.get("guilds", [])
+            or msg.guild is None
+            or not (str(msg.guild.id) in guilds if len(guilds) != 0 else True)
+            or not (str(msg.channel.id) in channels if len(channels) != 0 else True)
         ):
             return
 
-        if msg.channel.id not in [
-            1372001351516688495,  # faq-test
-            1362546419860242673,  # yap
-            1372717814078767195,  # fert-bot
-        ]:
-            return
-
         global run
-        if msg.channel.id == 1372001351516688495:
+        if msg.channel.id == debug_channel:
             match msg.content:
-                # case "!reload":
-                #     reload_faqs()
-                #     await msg.channel.send("done")
-                #     return
                 case "!stop":
                     run = False
                     return
@@ -139,7 +120,7 @@ class Client(discord.Client):
                     run = True
                     return
 
-        debug = msg.channel.id == 1372001351516688495
+        debug = msg.channel.id == debug_channel
         if msg.content.startswith("!debug"):
             msg.content = msg.content[len("!debug ") :]
             debug = True
@@ -151,24 +132,27 @@ class Client(discord.Client):
             len(msg.content) > 256
             or not msg.content
             or not msg.content[0].isalpha()
-            or msg.content.count(" ") < 2
+            or msg.content.count(" ") < 1
         ):
             return
 
         resp, score = get_faq(msg.content)
 
         is_a_question, is_a_question_confidence = is_question(msg.content)
-        print(resp, score)
+        require_question_threshold = resp.get(
+            "require_question_threshold", QUESTION_THRESHOLD
+        )
 
-        require_question = resp.get("question", True)
-        is_question_enough = require_question or (
+        require_question = resp.get("require_question", True)
+        is_question_enough = (not require_question) or (
             is_a_question
-            and is_a_question_confidence
-            >= resp.get("question_threshold", QUESTION_THRESHOLD)
+            and (
+                is_a_question_confidence
+                >= resp.get("require_question_threshold", QUESTION_THRESHOLD)
+            )
         )
 
         send = score >= resp["threshold"] and is_question_enough
-        # if msg.channel.id == 1372001351516688495:
         if debug:
             await msg.reply(
                 "```json\n"
@@ -179,7 +163,8 @@ class Client(discord.Client):
                         "question": {
                             "is_question": is_a_question,
                             "confidence": is_a_question_confidence,
-                            "is_question_enough": is_question_enough
+                            "threshold": require_question_threshold,
+                            "is_question_enough": is_question_enough,
                         },
                         "faq": {
                             "question": resp["question"],
@@ -194,14 +179,13 @@ class Client(discord.Client):
                 mention_author=False,
                 allowed_mentions=AllowedMentions.none(),
             )
-        # else:
-
         if not send:
             return
 
         await msg.reply(
             f"{resp["answer"]}\n-# {int(score * 100)}% confidence",
             mention_author=True,
+            allowed_mentions=AllowedMentions.none(),
         )
 
 

@@ -1,10 +1,16 @@
-guild = "267735321695748096"
+# guilds = "267735321695748096"
+channels = [
+  "1372001351516688495",  # faq-test
+  "1362546419860242673",  # yap
+  "1372717814078767195",  # fert-bot
+]
 
 [[faq]]
 questions = [
   "get tag",
   "put a tag on my profile",
   "put a tag on my name",
+  "get fluffy tag",
 ]
 answer = "Open Settings > Profile, scroll to the bottom, and select **bens stuff!! :3** from the dropdown list"
 threshold = 0.75
@@ -23,7 +29,7 @@ questions = [
   "get gradient name color",
   "how do I make colored roles in my own server",
 ]
-answer = "Tags and gradient roles are an experimental feature that only a small percentage of servers have access to. Open Server Settings in your server and look for a tab called **Server Tag**. If you don't see that tab, you'll have to wait a bit longer for the feature to be made available to more servers."
+answer = "Tags and gradient roles are an experimental feature that only a small percentage of servers have access to. Open Server Settings in your server and look for a tab called **Server Tag**. If you don't see that tab, you'll have to wait a bit longer for the feature to be available."
 threshold = 0.8
 
 [[faq]]
@@ -121,6 +127,10 @@ questions = [
   "invite to tag server",
   "ask for invite to tag server",
   "ask to join tag server",
+  "how do i get rawr tag",
+  "how do i get cute tag",
+  "how do i get meow tag",
+  "how do i get :3 tag",
 ]
 answer = "no"
 threshold = 0.75
@@ -130,8 +140,12 @@ question = false
 questions = [
   "file upload permissions are restricted",
   "sending images is disabled",
+  "sending attachments is disabled",
+  "sending GIFs is disabled",
+  "sending videos is disabled",
+  "how do I get the ability to send images?",
 ]
-answer = "nerd role"
+answer = "You need the <@&284168639421087747> role to upload files. Hang out in <#1362546419860242673> for a little longer for a chance to get it!"
 
 [[faq]]
 questions = [
@@ -139,3 +153,11 @@ questions = [
 ]
 answer = "everything and nothing"
 threshold = 0.95
+
+[[faq]]
+questions = [
+  "hi fert",
+]
+answer = "hi"
+threshold = 1.0
+question = false
