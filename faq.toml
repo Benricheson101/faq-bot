@@ -5,12 +5,15 @@ channels = [
   "1372717814078767195",  # fert-bot
 ]
 
+debug = true
+
 [[faq]]
 questions = [
   "get tag",
   "put a tag on my profile",
   "put a tag on my name",
   "get fluffy tag",
+  "have a tag",
 ]
 answer = "Open Settings > Profile, scroll to the bottom, and select **bens stuff!! :3** from the dropdown list"
 threshold = 0.75

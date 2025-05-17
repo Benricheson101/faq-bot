@@ -29,6 +29,7 @@ def reload_faqs():
     global faq_embeddings
     global faqs
     global faqs_parsed
+    global debug_mode
 
     faqs_parsed = toml.load(faqs_file)
 
@@ -46,6 +47,7 @@ def reload_faqs():
         for q in faq["questions"]
     }
 
+    debug_mode = faqs_parsed.get("debug", False)
     faq_questions = [q for q in faqs.keys()]
     faq_embeddings = faq_model.encode(
         faq_questions, convert_to_tensor=True, normalize_embeddings=True
