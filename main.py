@@ -180,8 +180,11 @@ class Client(discord.Client):
         if not send:
             return
 
+        answer = resp["answer"]
+        score_percent = int(score * 100)
+
         await msg.reply(
-            f"{resp["answer"]}\n-# {int(score * 100)}% confidence",
+            f"{answer}\n-# {score_percent}% confidence",
             mention_author=True,
             allowed_mentions=AllowedMentions.none(),
         )

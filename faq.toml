@@ -40,7 +40,7 @@ questions = [
   "where is general chat",
   "how do i see general chat",
   "only one channel",
-  "how do I get the nerd role",
+  # "how do I get the nerd role",
   "get more channels",
   "get other channels",
   "most of the channels are hidden",
@@ -53,11 +53,19 @@ answer = "To prevent spam, most of the channels here are hidden. If you're inter
 
 [[faq]]
 questions = [
+  "how do I get the nerd role",
+  "can I have the nerd role",
+]
+answer = "The nerd role is manually given to members who are active in chat."
+
+[[faq]]
+questions = [
   "six letter tag",
   "fluffy tag is six letters long",
   "how is the tag more than 4 letters",
   "this server's tag is six letters long",
   "fluffy tag shouldn't exist",
+  "tag has six letters",
 ]
 answer = "Magic"
 
@@ -147,6 +155,7 @@ questions = [
   "sending GIFs is disabled",
   "sending videos is disabled",
   "how do I get the ability to send images?",
+  "what level do i need to upload media",
 ]
 answer = "You need the <@&284168639421087747> role to upload files. Hang out in <#1362546419860242673> for a little longer for a chance to get it!"
 
