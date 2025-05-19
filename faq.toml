@@ -177,6 +177,7 @@ question = false
 [[faq]]
 questions = [
   "why do I have the bark role?",
+  "what is the bark role?",
 ]
 answer = "The bark role is a role that everyone is given upon joining. It's a member role of sorts, and allows us to change channel permissions more easily."
 threshold = 0.8
