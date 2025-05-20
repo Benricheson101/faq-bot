@@ -155,6 +155,7 @@ questions = [
   "sending GIFs is disabled",
   "sending videos is disabled",
   "how do I get the ability to send images?",
+  "how do I get image permissions?",
   "what level do i need to upload media",
 ]
 answer = "You need the <@&284168639421087747> role to upload files. Hang out in <#1362546419860242673> for a little longer for a chance to get it!"
