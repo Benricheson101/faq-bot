@@ -24,16 +24,12 @@ run = True
 debug_channel = 1372001351516688495
 
 
-faq_cache = {}
-is_question_cache = {}
-
 def reload_faqs():
     global faq_questions
     global faq_embeddings
     global faqs
     global faqs_parsed
     global debug_mode
-    global faq_cache
 
     faqs_parsed = toml.load(faqs_file)
 
@@ -56,7 +52,6 @@ def reload_faqs():
     faq_embeddings = faq_model.encode(
         faq_questions, convert_to_tensor=True, normalize_embeddings=True
     )
-    faq_cache.clear()
 
 
 reload_faqs()
@@ -71,12 +66,6 @@ class Watcher(PatternMatchingEventHandler):
 
 
 def get_faq(question: str) -> Tuple[dict, float]:
-    global faq_cache
-
-    from_cache = faq_cache.get(question.lower())
-    if from_cache is not None:
-        return from_cache
-
     question_embedding = faq_model.encode(
         question, convert_to_tensor=True, normalize_embeddings=True
     )
@@ -87,24 +76,14 @@ def get_faq(question: str) -> Tuple[dict, float]:
     best_score = best_score.item()
     best_match_idx = best_match_idx.item()
 
-    ret = (faqs[faq_questions[best_match_idx]], best_score)  # type: ignore
-    faq_cache[question.lower()] = ret
-    return ret
+    return (faqs[faq_questions[best_match_idx]], best_score)  # type: ignore
 
 
 def is_question(msg: str):
     global classifier_model
-    global is_question_cache
-
-    from_cache = is_question_cache.get(msg.lower())
-    if from_cache is not None:
-        return from_cache
-
     try:
         output = classifier_model(msg, ["question", "statement"])
-        ret = (output["labels"][0] == "question", output["scores"][0])  # type: ignore
-        is_question_cache[msg.lower()] = ret
-        return ret
+        return (output["labels"][0] == "question", output["scores"][0])  # type: ignore
     except Exception as e:
         print("classification failed:", e)
         return (False, 1.0)
@@ -116,7 +95,6 @@ class Client(discord.Client):
 
     async def on_message(self, msg: Message):
         global faqs_parsed
-        global faq_cache
 
         channels = faqs_parsed.get("channels", [])
         guilds = faqs_parsed.get("guilds", [])
