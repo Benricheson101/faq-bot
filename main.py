@@ -1,3 +1,4 @@
+from functools import lru_cache
 import json
 import os
 from typing import Tuple
@@ -65,6 +66,7 @@ class Watcher(PatternMatchingEventHandler):
         reload_faqs()
 
 
+@lru_cache(maxsize=512)
 def get_faq(question: str) -> Tuple[dict, float]:
     question_embedding = faq_model.encode(
         question, convert_to_tensor=True, normalize_embeddings=True
@@ -79,6 +81,7 @@ def get_faq(question: str) -> Tuple[dict, float]:
     return (faqs[faq_questions[best_match_idx]], best_score)  # type: ignore
 
 
+@lru_cache(maxsize=512)
 def is_question(msg: str):
     global classifier_model
     try:
