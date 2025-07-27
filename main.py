@@ -25,6 +25,7 @@ debug_channel = 1372001351516688495
 
 
 faq_cache = {}
+is_question_cache = {}
 
 def reload_faqs():
     global faq_questions
@@ -93,9 +94,17 @@ def get_faq(question: str) -> Tuple[dict, float]:
 
 def is_question(msg: str):
     global classifier_model
+    global is_question_cache
+
+    from_cache = is_question_cache.get(msg.lower())
+    if from_cache is not None:
+        return from_cache
+
     try:
         output = classifier_model(msg, ["question", "statement"])
-        return (output["labels"][0] == "question", output["scores"][0])  # type: ignore
+        ret = (output["labels"][0] == "question", output["scores"][0])  # type: ignore
+        is_question_cache[msg.lower()] = ret
+        return ret
     except Exception as e:
         print("classification failed:", e)
         return (False, 1.0)
@@ -107,6 +116,7 @@ class Client(discord.Client):
 
     async def on_message(self, msg: Message):
         global faqs_parsed
+        global faq_cache
 
         channels = faqs_parsed.get("channels", [])
         guilds = faqs_parsed.get("guilds", [])
